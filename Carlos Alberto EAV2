@@ -1,0 +1,466 @@
+
+# CONJUNTOS
+
+
+# In[9]:
+
+
+# // Primeira questão //
+# Colete a união entre os seguintes conjuntos: A = (1, 3, 5, 7) e B = (2, 4, 6, 8)
+
+import scipy.stats
+
+A = {1, 3, 5, 7}
+B = {2, 4, 6, 8}
+(A.union(B))
+
+
+# In[22]:
+
+
+# // Segunda Questão // 
+# Dados os conjuntos A = (1, 2, 3, 4, 5) e B = (2, 4, 6, 8, 10), entregue a interseção.
+
+import scipy.stats 
+
+A = {1, 2, 3, 4, 5}
+B = {2, 4, 6, 8, 10}
+(A.intersection(B))
+
+
+# In[24]:
+
+
+# // Terceira Questão // 
+# Considerando os conjuntos da questão anterior, calcule A - B
+
+import scipy.stats 
+
+A = {1, 2, 3, 4, 5}
+B = {2, 4, 6, 8, 10}
+A - B
+
+
+# In[25]:
+
+
+# // Quarta Questão // 
+# Imagine um espaço Amostral(U) com 10 termos(de 1 à 10), com A e B (conjuntos da primeira questão) contidos em U,
+# calcular Complementar de A união Complementar de B.
+
+import scipy.stats 
+
+A = {1, 2, 3, 4, 5}
+B = {2, 4, 6, 8, 10}
+U = set(list(range(1,10,1)))
+A_complementar = U.difference(A)
+B_complementar = U.difference(B)
+(A_complementar.union(B_complementar))
+
+
+# In[28]:
+
+
+# // Quinta Questão // 
+# Imagine um espaço Amostral(U) com 10 termos(de 1 à 10), com A e B (conjuntos da primeira questão) contidos em U,
+# calcular Complementar de A interseção Complementar de B.
+
+import scipy.stats 
+
+A = {1, 2, 3, 4, 5}
+B = {2, 4, 6, 8, 10}
+U = set(list(range(1,10,1)))
+A_complementar = U.difference(A)
+B_complementar = U.difference(B)
+(A_complementar.intersection(B_complementar))
+
+
+# In[ ]:
+
+
+# METODOS DE CONTAGEM
+
+
+# In[30]:
+
+
+# // Primeira Questão //
+
+# Dada a palavra "Arara", mostre quantos anagramas podem ser feitos.
+
+import math
+
+n = math.factorial(5) 
+a = math.factorial(2) 
+r = math.factorial(2) 
+
+
+permutacao = n/(a*r)
+
+print(f"Eh possivel formar {permutacao} anagramas")
+
+
+# In[32]:
+
+
+# // Segunda Questão //
+
+# Em uma seletiva de emprego, há 2 vagas para o cargo gerente, apareceram nesse dia, 10 pessoas. Precisa-se escolher, dentre
+# as 10 pessoas, 2 que trabalharão nesse cargo. Quantas maneiras diferentes existem para se escolher essas pessoas?
+
+import math
+n = math.factorial(10)
+k = math.factorial(2)
+k1 = math.factorial(10-2)
+combina = n/(k*k1)
+print(f"Existem {combina} maneiras de se escolherem 2 pessoas dentre essas 10!")
+
+
+# In[34]:
+
+
+# // Terceira Questão //
+
+# Existem quantas maneiras diferentes de 10 pessoas se sentarem em um banco que contém 4 lugares 
+# (a ordem em que se sentam importa)?
+
+import math
+n = math.factorial(10)
+k = math. factorial(4)
+arranjo = n/k
+print(f"Existem {arranjo} maneiras dessas 10 pessoas se sentarem nesse banco!")
+
+
+# In[36]:
+
+
+# // Quarta Questão //
+
+# No time profissional de futebol "Vasco da Gama", um técnico tem a sua disposição 18 jogadores que podem jogar 
+# em qualquer posição. De quantas maneiras diferentes, esse treinador pode escalar um time com 11 jogadores?
+
+import math
+n = math.factorial(18)
+k = math.factorial(11)
+k1 = math.factorial(18-11)
+combina = n/(k*k1)
+print(f"O técnico pode escalar esse time de {combina} maneiras diferentes!")
+
+
+# In[37]:
+
+
+# // Quinta Questão // 
+
+# Um professor elaborou uma prova com 20 questões e os alunos deveriam respondê-la assinalando verdadeiro (V) ou falso (F) 
+# para cada uma das questões. De quantas maneiras distintas o teste poderia ser respondido?
+
+maneiras = 2
+for i in range(1, 20, 1):
+    maneiras *= 2
+print(f"Existem {maneiras} maneiras de responder esse teste!")
+
+
+# In[ ]:
+
+
+# PROBABILIDADE
+
+
+# In[38]:
+
+
+# // Primeira Questão // 
+
+# Um jovem sai de sua casa sempre pela manhã, ele corre até o terminal e quase
+# sempre consegue chegar ao ônibus a tempo. Em um experimento feito, adquiriu-se
+# os seguintes dados: Em 365 dias, o jovem atrasou-se 52 vezes. Qual a probabi-
+# lidade do jovem atrasar-se 3 dias?
+
+from scipy.stats import poisson
+prob_geral = poisson(52/365)
+dist_prob =  prob_geral.pmf(3)
+print(dist_prob)
+
+
+# In[39]:
+
+
+#  // Segunda Questão // 
+
+# Carlos tem um dado de 20 faces. Ele precisa tirar um numero 5 vezes seguidas, qual a probabilidade disso acontecer.
+
+from scipy.stats import bernoulli
+prob = bernoulli(5/20)
+prob.pmf(1)
+
+
+# In[40]:
+
+
+# // Terceira Questão //
+
+# Para passar num exame, Anderson precisa acertar 40 questões de uma prova que contém um total de 50 questões. 
+# Qual a probabilidade de Anderson passar acertando exatamente 40 questões?. 
+
+from scipy.stats import binom
+prob = binom(50, 1/4)
+dist_prob = prob.pmf(range(40,51,1))
+print(sum(dist_prob))
+
+
+# In[41]:
+
+
+# // Quarta Questão //
+
+# Um saco contém 8 bolas idênticas, mas com cores diferentes: três bolas azuis, quatro vermelhas e uma amarela.
+# Retira-se ao acaso uma bola. Qual a probabilidade da bola retirada ser azul?
+
+from scipy.stats import bernoulli
+
+prob = bernoulli(3/8)
+prob.pmf(1)
+
+
+# In[42]:
+
+
+# // Quinta Questão //
+
+# Esdras jogou um dado de seis lados e precisava que caisse um numero par, porem, o dado caiu no chão. 
+# Seu amigo disse que foi um numero maior que 3. Qual a probabilidade dele ter ganhado?.
+
+import scipy.stats 
+PA = {2,4,6} 
+PB = {4,5,6}
+
+prob_final = (len(PB.intersection(PA)))/ len(PB)
+
+print(f"A probabilidade de Esdras ganhar eh: {prob_final}")
+
+
+# In[ ]:
+
+
+# VARIÁVEIS ALEATORIAS DISCRETAS 
+
+
+# In[44]:
+
+
+# // Primeira Questão //
+
+# O volume de um pacote de toddynho varia uniformemente entre 250ml e 280ml. 
+# Calcule o valor esperado de cada pacote e o desvio padrão por saco.
+
+from scipy.stats import uniform
+from math import sqrt
+
+valor_esperado = uniform.mean(250, 30)
+desvio_esperado = uniform.var(250, 30)
+print(f'''O valor esperado em cada pacote(média) é: {valor_esperado}\ne seu desvio padrão é: {sqrt(desvio_esperado)} ''')
+
+
+# In[46]:
+
+
+# // Segunda Questão //  
+
+# Um professor de matemática atribuiu uma prova com 20 questões de múltipla escolha, cada uma com 4 alternativas.
+# Suponha que um aluno respondeu todas as questões ao acaso, chutando as respostas. 
+# Qual é a probabilidade de que o aluno acerte exatamente 4 questões?
+
+from scipy.stats import binom
+
+numero_questoes = 20
+probabilidade_acerto = 0.25
+numero_acertos = 4
+
+probabilidade = binom.pmf(numero_acertos, numero_questoes, probabilidade_acerto)
+
+print("Probabilidade de acertar exatamente 4 questões:", probabilidade)
+
+
+# In[47]:
+
+
+# // Terceira Questão //
+
+# Um jogo consiste em lançar um dado equilibrado de seis faces até que saia uma face que já tenha saído antes.
+# Suponha que o jogador tenha lançado o dado duas vezes e obtido os resultados 2 e 4. 
+# Qual é a probabilidade de que ele precise de mais um lançamento para ganhar o jogo?
+
+from scipy.stats import geom
+
+probabilidade_sucesso = 5/6
+numero_tentativas = 3
+
+probabilidade = geom.pmf(numero_tentativas, probabilidade_sucesso)
+
+print("Probabilidade de precisar de mais um lançamento:", probabilidade)
+
+
+# In[49]:
+
+
+# // Quarta Questão //
+
+# Em uma cidade, a probabilidade de chover em um determinado dia é de 0,1. Se em um mês a cidade tiver 30 dias,
+# qual é a probabilidade de chover em exatamente 15 desses dias?
+
+import math
+
+n = 30
+k = 15
+p = 0.1
+
+comb = math.comb(n, k)
+probabilidade = comb * (p ** k) * ((1 - p) ** (n - k))
+
+#  comb calcula o número de combinações de n objetos tomados k a k
+
+print("Probabilidade de chover em exatamente 15 dias:", probabilidade)
+
+
+# In[50]:
+
+
+# // Quinta Questão //
+
+# Suponha que em uma universidade a proporção de estudantes de engenharia seja de 0,25 e a proporção de estudantes de medicina
+# seja de 0,15. Além disso, sabe-se que 70% dos estudantes de engenharia são homens e que 60% dos estudantes de medicina
+# são mulheres. Se um estudante é selecionado aleatoriamente, qual é a probabilidade de que ele seja uma mulher de medicina?
+
+p_engenharia = 0.25 
+p_medicina = 0.15 
+p_homem_engenharia = 0.7 
+p_mulher_medicina = 0.6 
+
+p_mulher_e_medicina = p_medicina * (1 - p_mulher_medicina)
+
+p_medicina = p_medicina
+
+p_mulher_dado_medicina = p_mulher_medicina
+
+probabilidade = p_mulher_e_medicina / p_medicina * p_mulher_dado_medicina
+
+# Imprimindo a resposta
+print("A probabilidade de selecionar uma mulher de medicina é de:", probabilidade)
+
+
+# In[ ]:
+
+
+# VARIÁVEIS ALEATÓRIAS CONTÍNUAS 
+
+
+# In[4]:
+
+
+# // Primeira Questão //
+
+# Uma empresa produz pacotes de biscoitos em caixas que são vendidas para os consumidores em supermercados.
+# Suponha que a quantidade de biscoitos em cada caixa segue uma distribuição normal com média 20 e desvio padrão 2.
+# Qual é a probabilidade de uma caixa selecionada aleatoriamente conter mais de 25 biscoitos?
+
+from scipy.stats import norm
+
+media = 20
+desvio_padrao = 2
+quantidade_biscoitos = 25
+
+probabilidade = 1 - norm.cdf(quantidade_biscoitos, media, desvio_padrao)
+
+#A função norm.cdf calcula a probabilidade acumulada da distribuição normal padrão para um determinado valor de X,
+# considerando uma média e desvio padrão específicos.
+
+print("A Probabilidade de uma caixa conter mais de 25 biscoitos é:", probabilidade)
+
+
+# In[5]:
+
+
+# // Segunda Questão //
+
+# Um nutricionista está estudando o consumo de calorias por dia de um grupo de pessoas.
+# Suponha que a quantidade de calorias consumidas por dia segue uma distribuição normal com média 2000 e desvio padrão 500.
+# Se uma pessoa é selecionada aleatoriamente deste grupo, qual é a probabilidade de ela consumir entre 1800 e 2200 calorias
+# por dia?
+
+from scipy.stats import norm
+
+media = 2000
+desvio_padrao = 500
+limite_inferior = 1800
+limite_superior = 2200
+
+probabilidade_inferior = norm.cdf(limite_inferior, media, desvio_padrao)
+probabilidade_superior = norm.cdf(limite_superior, media, desvio_padrao)
+
+probabilidade = probabilidade_superior - probabilidade_inferior
+
+print("A Probabilidade de uma pessoa consumir entre 1800 e 2200 calorias por dia é:", probabilidade)
+
+
+# In[6]:
+
+
+# // Terceira Questão //
+
+# Suponha que a duração das ligações telefônicas de uma empresa de telemarketing segue uma distribuição normal com
+# média de 4 minutos e desvio padrão de 0,5 minutos. Se uma chamada é selecionada aleatoriamente,
+# qual é a probabilidade dela durar menos de 2 minutos?
+
+from scipy.stats import norm
+
+media = 4
+desvio_padrao = 0.5
+limite = 2
+
+probabilidade = norm.cdf(limite, media, desvio_padrao)
+
+print("A probabilidade de uma chamada durar menos de 2 minutos:", probabilidade)
+
+
+# In[7]:
+
+
+# // Quarta Questão //
+
+# Um fabricante de lâmpadas afirma que suas lâmpadas têm uma vida útil média de 4000 horas,
+# com um desvio padrão de 200 horas. Qual é a probabilidade de uma lâmpada escolhida aleatoriamente ter uma vida útil
+# de pelo menos 2500 horas?
+
+from scipy.stats import norm
+
+media = 4000
+desvio_padrao = 200
+limite = 2500
+
+probabilidade = 1 - norm.cdf(limite, media, desvio_padrao)
+
+print("A Probabilidade de uma lâmpada ter uma vida útil de pelo menos 4000 horas é:", probabilidade)
+
+
+# In[8]:
+
+
+# // Quinta Questão //
+
+# Suponha que o peso das bananas produzidas em uma plantação siga uma distribuição normal com média de 150 gramas
+# e desvio padrão de 20 gramas. Se uma amostra de 25 bananas é selecionada aleatoriamente, 
+# qual é a probabilidade de que a média do peso das bananas seja maior que 155 gramas?
+
+from scipy.stats import norm
+
+media = 150
+limite = 155
+quantidade = 25
+
+desvio_padrao = 20 / (25 ** 0.5)
+# Utilizei a fórmula do erro padrão da média amostral, que é dada por σ / sqrt(n), por isso elevei a 0.5 = 1/2
+
+probabilidade = 1 - norm.cdf(limite, media, desvio_padrao)
+
+print("A probabilidade de que a média do peso das bananas seja maior que 155 gramas é:", probabilidade)
