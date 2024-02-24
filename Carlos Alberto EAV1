@@ -1,0 +1,224 @@
+# In[1]:
+
+
+# Importarei as seguintes bibliotecas para podermos fazer o trabalho. 
+import pandas as pd 
+import matplotlib.pyplot as plt
+import numpy as np 
+
+
+# In[2]:
+
+
+# Definirei a variavel principal como "df"
+df = df = pd.read_csv('master.csv')
+print(df.columns)
+df.sample(1)
+
+
+# In[3]:
+
+
+data = df[df.country == 'Brazil']
+print(data.shape)
+data.sample(1)
+
+
+# In[4]:
+
+
+# Vamos analisar os suicidios no mundo a partir dessas 3 proximas definições. 
+countries = df.country.unique().tolist()
+countries[:5]
+
+
+# In[5]:
+
+
+suicide_no = []
+for c in countries:
+    s = 0 
+    for i in range(0, len(df.country)):
+        if(c==df.country[i]):
+            s += df.iloc[i]['suicides_no']
+    suicide_no.append(s)
+
+
+# In[6]:
+
+
+print(countries[0])
+print(suicide_no[0])
+
+
+# In[7]:
+
+
+# Agora veremos uma lista dos 10 paises com maiores numeros de suicidios.
+d = {'country' : countries, 'total_suicides' : suicide_no}
+suicide_world = pd.DataFrame(data=d)
+indexes = suicide_world['total_suicides'].sort_values(ascending=False)[:10].index.tolist()
+top_suicide_no = []
+top_countries = []
+for i in indexes:
+    top_countries.append(suicide_world.iloc[i].country)
+    top_suicide_no.append(suicide_world.iloc[i]['total_suicides'])
+    
+print(top_countries)
+print(top_suicide_no)
+
+
+# In[8]:
+
+
+# Criarei um grafico de pizza para demonstrar a analise anterior 
+labels = top_countries
+sizes = [38.4, 40.6, 20.7, 10.3]
+colors = ['red', 'blue', 'grey', 'lightskyblue', 'gold', 'brown', 'black', 'green', 'magenta', 'orange']
+patches, texts = plt.pie(top_suicide_no, colors=colors, shadow=True, startangle=90)
+plt.legend(patches, labels, loc="best")
+plt.axis('equal')
+plt.tight_layout()
+plt.show()
+
+
+# In[10]:
+
+
+# Agora um grafico de barras
+index = np.arange(len(top_countries))
+plt.bar(top_countries, top_suicide_no)
+plt.ylabel('Numero de Suicidios', fontsize=5)
+plt.xticks(index, top_countries, fontsize=5, rotation=30)
+plt.title('Top 10 paises com maior numero de suicidios')
+plt.show()
+
+
+# In[11]:
+
+
+# Um resumo de todos os dados 
+data.describe()
+
+
+# In[12]:
+
+
+# Todas as colunas presentes na base de dados
+data.columns
+
+
+# In[13]:
+
+
+# Vou agora definir uma classificação para diferenciar e agrupar os sexos por idade para uma futura analise 
+female = data.groupby(by=['sex', 'age'])['suicides_no'].sum()[:6]
+male = data.groupby(by=['sex', 'age'])['suicides_no'].sum()[6:]
+f = []
+m = []
+fn = []
+mn = []
+for i in range(6):
+    f.append(female.index[i][1].split(' ')[0])
+    m.append(male.index[i][1].split(' ')[0])
+    fn.append(female[i])
+    mn.append(male[i])
+print(f)
+print(m)
+
+
+# In[19]:
+
+
+# Mostrarei o numero total de pessoas de ambos os sexos 
+print('total female: ', sum(fn))
+print('total male: ', sum(mn))
+
+
+# In[16]:
+
+
+# Como dito antes, uma analise, no caso um grafico para analisar a taxa de suicidios por idade das pessoas do sexo feminino
+index = np.arange(len(f))
+plt.bar(f, fn)
+plt.ylabel('Number of Suicides', fontsize=5)
+plt.xticks(index, f, fontsize=8, rotation=30)
+plt.title('Numero de Suicidios por idade - Mulheres')
+plt.show()
+
+
+# In[17]:
+
+
+# Repetirei o proceso agora utilizando os dados do sexo masculino
+index = np.arange(len(m))
+plt.bar(m, mn)
+#plt.xlabel('Countries', fontsize=5)
+plt.ylabel('Number of Suicides', fontsize=5)
+plt.xticks(index, f, fontsize=8, rotation=30)
+plt.title('Numero de Suicidios por idade - Homens')
+plt.show()
+
+
+# In[20]:
+
+
+# Um grafico comparando o numero total de suicidios por sexo
+d = {'women' : [sum(fn)], 'men' : [sum(mn)]}
+perSex = pd.DataFrame(data=d)
+perSex.plot.bar()
+
+
+# In[22]:
+
+
+# Definindo as variaveis de suicidios por ano 
+year = data.groupby(by=['country-year'])['suicides_no'].sum().index.tolist()
+suicide_no = data.groupby(by=['country-year'])['suicides_no'].sum().values.tolist()
+
+
+# In[23]:
+
+
+# Mostrando agora o que foi feito acima 
+year_ = [d[6:] for d in year]
+
+print(year_[:5])
+print(suicide_no[:5])
+
+
+# In[24]:
+
+
+# Exibindo agora o numero de suicidios por ano no Brasil
+corr_year = data.pivot_table(index='year',
+                                  values='suicides_no', aggfunc=np.median)
+corr_year
+
+
+# In[26]:
+
+
+d = {'year' : year_, 'suicides' : suicide_no}
+perYear = pd.DataFrame(data=d)
+perYear.plot.bar(x='year',y='suicides')
+plt.title("Suicidios por ano - Mundo")
+plt.show()
+
+
+# In[28]:
+
+
+data.plot.scatter(x='year',y='HDI for year')
+plt.title("Aumento do IDH com o passar dos anos")
+plt.show()
+
+
+# In[37]:
+
+
+data.plot.line(x='year',y='gdp_per_capita ($)')
+plt.title("Ano x PIB per Capita (GDP = PIB)")
+data.plot.hist(x='suicides_no',y='gdp_per_capita ($)')
+plt.title("Taxa de suicidios x PIB per Capita (PIB)")
+plt.show()
